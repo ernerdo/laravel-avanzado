@@ -8,6 +8,13 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+
+    public function __construct() {
+
+        $this->middleware("auth:sanctum")
+            ->except(["index", "show"]);
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return  Product::all();
     }
 
     /**
@@ -26,7 +33,9 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $product = Product::create($request->all());
+
+        return $product;
     }
 
     /**
@@ -37,7 +46,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return $product;
     }
 
     /**
@@ -49,7 +58,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->all());
     }
 
     /**
@@ -60,6 +69,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return response()->json();
     }
 }
